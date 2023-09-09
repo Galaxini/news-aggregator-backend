@@ -15,7 +15,7 @@ Before you begin, make sure you have the following prerequisites installed on yo
 
 ### Installation
 
-Follow these steps to get the Laravel backend up and running:
+Follow these steps to get both the Laravel backend and React frontend up and running:
 
 1. **Clone the repository to your local machine:**
 
