@@ -21,3 +21,13 @@ Follow these steps to get the Laravel backend up and running:
 
    ```bash
    git clone <repository_url>
+2. **Navigate to the project directory:**
+
+   ```bash
+   cd news-aggregator-backend
+3. **Create a .env file based on the provided .env.example and configure your database settings.**
+4. **Build and start the Docker containers:**
+
+   ```bash
+   docker-compose up --build
+5. **The Laravel application should now be accessible at http://localhost:8000.**
