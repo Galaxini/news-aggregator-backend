@@ -8,6 +8,9 @@ services:
       - .:/var/www/html
     ports:
       - "8000:9000"
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
       - laravel-network
     depends_on:
@@ -43,6 +46,17 @@ services:
       - "6379:6379"
     networks:
       - laravel-network
+
+  react:
+    build:
+      context: ./../news-aggregator-frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./../news-aggregator-frontend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
 
 networks:
   laravel-network:
