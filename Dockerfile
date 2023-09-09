@@ -1,14 +1,22 @@
-# Use an official Nginx image as the base image
-FROM nginx:latest
+# Use an official PHP image as the base image
+FROM php:8.1-fpm
 
-# Remove the default Nginx configuration file
-RUN rm /etc/nginx/conf.d/default.conf
+# Install required dependencies and libraries
+RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev
 
-# Copy your custom Nginx configuration to the container
-COPY nginx/default.conf /etc/nginx/conf.d/
+# Configure the GD extension with the correct options
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
-# Set the working directory to /var/www/html (the default Laravel directory)
+# Install the GD extension
+RUN docker-php-ext-install -j$(nproc) gd
+
+# Other PHP configurations and extensions go here
+
+# Set the working directory
 WORKDIR /var/www/html
 
-# Expose port 80 for Nginx
-EXPOSE 80
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
