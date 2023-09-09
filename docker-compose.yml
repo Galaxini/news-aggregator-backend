@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  app:
+    image: php:8.0-fpm
+    container_name: laravel-app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:9000"
+    networks:
+      - laravel-network
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=news_aggregator
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - REDIS_HOST=redis
+
+  db:
+    image: mysql:5.7
+    container_name: laravel-db
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=news_aggregator
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+
+  redis:
+    image: redis:latest
+    container_name: laravel-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
