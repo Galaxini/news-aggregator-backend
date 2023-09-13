@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::group(['prefix' => 'auth'], function () {
+    // Registration route
+    Route::post('/register', [RegisterController::class, 'create']);
 
-Route::get('/users', function (Request $request) {
-    return User::all();
+    // Login route
+    Route::post('/login', [LoginController::class, 'login']);
+
+    // Routes that require authentication
+    Route::middleware('auth:sanctum')->group(function () {
+        // Get authenticated user details
+        // Route::get('/user', [UserController::class, 'user']);
+
+        // Logout
+        Route::post('/logout', [LogoutController::class, 'logout']);
+    });
 });
